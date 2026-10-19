@@ -18,6 +18,8 @@
 
 APK-তে পেজ, বাংলা ফন্ট ও সব প্রয়োজনীয় ফাইল অন্তর্ভুক্ত। অ্যাপের Internet permission-ও নেই।
 
+প্রস্তুত APK: [Emrul-Invoice.apk](downloads/Emrul-Invoice.apk) — GitHub-এ ফাইলটি খুলে Download raw file চাপুন।
+
 1. APK ইনস্টল করুন; Android প্রয়োজন হলে এই ফাইলের উৎস থেকে install করার অনুমতি চাইবে।
 2. Settings → Bluetooth থেকে HOIN প্রিন্টার পেয়ার করুন।
 3. Emrul Invoice খুলুন → কানেক্ট করুন → Bluetooth অনুমতি দিন → নিজের প্রিন্টার বেছে নিন।
@@ -67,3 +69,5 @@ ANDROID_HOME=/path/to/android-sdk gradle -p android --no-daemon :app:assembleDeb
 যাচাই করা: byte packing / সম্পূর্ণ 100-band BLE transfer / ত্রুটিতে duplicate retry না হওয়া; Chromium-এ 1, 12, 50, 70, 200 ও 1,000-item raster layout, অফলাইন reload, বাংলা ফন্ট ও ইতিহাস, native bridge-এর simulated connect/print/error flow। বাস্তব প্রিন্টার ও ফোনের পরীক্ষা আলাদা করে প্রয়োজন।
 
 প্রিন্টার বন্ধ / কাগজ শেষ / সংযোগ বিচ্ছিন্ন হলে আংশিক রসিদ বের হতে পারে। সমস্যাটি ঠিক করে সচেতনভাবে আবার প্রিন্ট দিন।
+
+বর্তমান APK: Android build সফল; APK signature যাচাই এবং bundled HTML/JavaScript/বাংলা ফন্টের মিল পরীক্ষা করা হয়েছে। ফোনে ইনস্টল ও বাস্তব Bluetooth প্রিন্ট পরীক্ষা এখানে চালানো হয়নি।

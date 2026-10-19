@@ -14,6 +14,8 @@ import android.util.Base64;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import java.io.ByteArrayInputStream;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import org.json.JSONObject;
@@ -37,12 +39,22 @@ public class MainActivity extends Activity {
         web = new WebView(this);
         web.getSettings().setJavaScriptEnabled(true);
         web.getSettings().setDomStorageEnabled(true);
-        web.getSettings().setAllowFileAccess(true);
+        web.getSettings().setAllowFileAccess(false);
         web.getSettings().setAllowContentAccess(false);
         web.getSettings().setAllowFileAccessFromFileURLs(false);
         web.getSettings().setAllowUniversalAccessFromFileURLs(false);
         web.getSettings().setBlockNetworkLoads(true);
         web.setWebViewClient(new WebViewClient() {
+            @Override public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                String path=request.getUrl().getPath();
+                if ("https".equals(request.getUrl().getScheme()) && "appassets.androidplatform.net".equals(request.getUrl().getHost()) && path!=null && path.startsWith("/assets/") && !path.contains("..")) {
+                    String asset=path.substring(8);
+                    String mime=asset.endsWith(".css")?"text/css":asset.endsWith(".js")?"application/javascript":asset.endsWith(".woff2")?"font/woff2":asset.endsWith(".png")?"image/png":asset.endsWith(".json")?"application/json":"text/html";
+                    try { return new WebResourceResponse(mime,"UTF-8",getAssets().open(asset)); }
+                    catch(IOException ignored) {}
+                }
+                return new WebResourceResponse("text/plain","UTF-8",404,"Not Found",null,new ByteArrayInputStream(new byte[0]));
+            }
             @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) { return true; }
             @Override public boolean shouldOverrideUrlLoading(WebView view, String url) { return true; }
         });
@@ -52,7 +64,7 @@ public class MainActivity extends Activity {
             return insets.consumeSystemWindowInsets();
         });
         setContentView(web);
-        web.loadUrl("file:///android_asset/index.html");
+        web.loadUrl("https://appassets.androidplatform.net/assets/index.html");
     }
 
     private void reply(String id, String error, String value) {

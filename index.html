@@ -524,6 +524,10 @@ async function printInvoice(){
       updateBTUI(true,btDevice.name);
     }
 
+    await Promise.all([
+      document.fonts.load('22px "Tiro Bangla"','বাংলা English ৳'),
+      document.fonts.load('bold 42px "Tiro Bangla"','ইমরুল ইলেকট্রনিক্স')
+    ]);
     await document.fonts.ready;
     const data=build58(d);
 
