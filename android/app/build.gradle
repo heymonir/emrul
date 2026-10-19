@@ -1,0 +1,21 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'com.emrul.invoice'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.emrul.invoice'
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName '1.0'
+    }
+    buildTypes { release { minifyEnabled false } }
+    sourceSets { main { assets.srcDirs = [layout.buildDirectory.dir('invoiceAssets')] } }
+}
+tasks.register('prepareInvoiceAssets', Copy) {
+    from('../..') {
+        include 'index.html', 'receipt.js', 'sw.js', 'manifest.json', 'icon-*.png', 'fonts/**'
+    }
+    into layout.buildDirectory.dir('invoiceAssets')
+}
+tasks.named('preBuild').configure { dependsOn 'prepareInvoiceAssets' }
