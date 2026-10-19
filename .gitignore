@@ -5,3 +5,8 @@ android/build/
 _site/
 *.apk
 !downloads/*.apk
+*.jks
+*.keystore
+*.p12
+*.key
+.env

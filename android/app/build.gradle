@@ -6,10 +6,30 @@ android {
         applicationId 'com.emrul.invoice'
         minSdk 23
         targetSdk 35
-        versionCode 1
-        versionName '1.0'
+        versionCode 2
+        versionName '1.1'
     }
-    buildTypes { release { minifyEnabled false } }
+    signingConfigs {
+        release {
+            if (System.getenv('EMRUL_KEYSTORE_PATH')) {
+                storeFile file(System.getenv('EMRUL_KEYSTORE_PATH'))
+                storePassword System.getenv('EMRUL_KEYSTORE_PASSWORD')
+                keyAlias System.getenv('EMRUL_KEY_ALIAS') ?: 'emrul-release'
+                keyPassword System.getenv('EMRUL_KEY_PASSWORD') ?: System.getenv('EMRUL_KEYSTORE_PASSWORD')
+            }
+        }
+    }
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled false
+            if (System.getenv('EMRUL_KEYSTORE_PATH')) signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
     sourceSets { main { assets.srcDirs = [layout.buildDirectory.dir('invoiceAssets')] } }
 }
 tasks.register('prepareInvoiceAssets', Copy) {

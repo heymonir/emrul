@@ -26,7 +26,8 @@ jobs:
       - name: Prepare public files
         run: |
           mkdir _site
-          cp index.html receipt.js sw.js manifest.json icon-192.png icon-512.png _site/
+          cp index.html install.html receipt.js sw.js manifest.json icon-192.png icon-512.png _site/
+          cp -R downloads _site/downloads
           cp -R fonts _site/fonts
       - uses: actions/upload-pages-artifact@v3
         with:
